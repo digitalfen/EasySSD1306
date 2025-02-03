@@ -1,9 +1,9 @@
 #include "display/DisplayManager.h"
 
 #include "display/components/Animation.h"
-#include "display/components/Menu.h"
-#include "display/components/Load.h"
-#include "display/components/Page.h"
+#include "display/components/Navigation.h"
+#include "display/components/Event.h"
+#include "display/components/View.h"
 
 #define BUTTON_UP 4
 #define BUTTON_DOWN 5
@@ -19,12 +19,12 @@ DisplayManager dsp;
 
 std::map<int, String> optionsMain = {
     {90, "Animations styles"},
-    {80, "Menu styles"},
-    {70, "Page styles"},
-    {60, "Load styles"}};
+    {80, "Navigation styles"},
+    {70, "View styles"},
+    {60, "Event styles"}};
 
 std::map<int, String> optionsAnimations = {
-    {1, "Return to Main menu"},
+    {1, "Return to Main Navigation"},
     {91, "Reveal from center"},
     {92, "Slide from left"},
     {93, "Slide from right"},
@@ -35,16 +35,16 @@ std::map<int, String> optionsAnimations = {
     {98, "Fall in Sequence"},
 };
 
-std::map<int, String> optionsMenuStyles = {
-    {1, "Return to Main menu"},
+std::map<int, String> optionsNavigationStyles = {
+    {1, "Return to Main Navigation"},
     {81, "List w/ cursor"},
     {82, "List w/ highlight"},
     {83, "Vertical selector"},
     {84, "Horizontal selector"},
 };
 
-std::map<int, String> optionsPageStyles = {
-    {1, "Return to Main menu"},
+std::map<int, String> optionsViewStyles = {
+    {1, "Return to Main Navigation"},
     {71, "Borderless, left"},
     {72, "Borderless, center"},
     {73, "Borderless, right"},
@@ -56,14 +56,14 @@ std::map<int, String> optionsPageStyles = {
     {79, "Rounded border, right"},
 };
 
-std::map<int, String> optionsLoadStyles = {
-    {1, "Return to Main menu"},
+std::map<int, String> optionsEventStyles = {
+    {1, "Return to Main Navigation"},
     {61, "Progress bar"},
     {62, "Circle sweep"},
     {63, "Dot sequence"}};
 
 std::map<int, String> optionsGeneric = {
-    {1, "Return to Main menu"},
+    {1, "Return to Main Navigation"},
     {80, "Return to Styles"},
     {91, "Lorem ipsum"},
     {92, "Lorem ipsum"},
@@ -111,11 +111,11 @@ std::vector<String> loremIpsum = {
     "Etiam lacinia, sapien non auctor suscipit, tortor nisi viverra neque, ac posuere tortor magna vitae risus."};
 
 Animation *mainIntro = new Animation(0, REVEAL_FROM_CENTER, 1, "Easy SSD1306");
-Menu *mainMenu = new Menu(1, CURSOR_LIST, optionsMain);
-Menu *mainAnimation = new Menu(90, CURSOR_LIST, optionsAnimations);
-Menu *mainMenus = new Menu(80, CURSOR_LIST, optionsMenuStyles);
-Menu *mainPages = new Menu(70, CURSOR_LIST, optionsPageStyles);
-Menu *mainLoads = new Menu(60, CURSOR_LIST, optionsLoadStyles);
+Navigation *mainNavigation = new Navigation(1, CURSOR_LIST, optionsMain);
+Navigation *mainAnimation = new Navigation(90, CURSOR_LIST, optionsAnimations);
+Navigation *mainNavigations = new Navigation(80, CURSOR_LIST, optionsNavigationStyles);
+Navigation *mainViews = new Navigation(70, CURSOR_LIST, optionsViewStyles);
+Navigation *mainEvents = new Navigation(60, CURSOR_LIST, optionsEventStyles);
 
 Animation *intro1 = new Animation(91, REVEAL_FROM_CENTER, 90, "Easy SSD1306");
 Animation *intro2 = new Animation(92, SLIDE_FROM_LEFT, 90, "Easy SSD1306");
@@ -126,24 +126,24 @@ Animation *intro6 = new Animation(96, BOOT_PROGRESS, 90, "Easy SSD1306");
 Animation *intro7 = new Animation(97, FALL_BLOCK, 90, "Easy SSD1306");
 Animation *intro8 = new Animation(98, FALL_IN_SEQUENCE, 90, "Easy SSD1306");
 
-Menu *menu1 = new Menu(81, CURSOR_LIST, optionsGeneric);
-Menu *menu2 = new Menu(82, HIGHLIGHT_LIST, optionsGeneric);
-Menu *menu3 = new Menu(83, VERTICAL_SELECTOR, optionsGeneric);
-Menu *menu4 = new Menu(84, HORIZONTAL_SELECTOR, optionsGeneric);
+Navigation *Navigation1 = new Navigation(81, CURSOR_LIST, optionsGeneric);
+Navigation *Navigation2 = new Navigation(82, HIGHLIGHT_LIST, optionsGeneric);
+Navigation *Navigation3 = new Navigation(83, VERTICAL_SELECTOR, optionsGeneric);
+Navigation *Navigation4 = new Navigation(84, HORIZONTAL_SELECTOR, optionsGeneric);
 
-Load *load1 = new Load(61, PROGRESS_BAR, progressBarFunction);
-Load *load2 = new Load(62, CIRCLE_SWEEP, circleSweepFunction);
-Load *load3 = new Load(63, DOT_SEQUENCE, dotSequenceFunction);
+Event *Event1 = new Event(61, PROGRESS_BAR, progressBarFunction);
+Event *Event2 = new Event(62, CIRCLE_SWEEP, circleSweepFunction);
+Event *Event3 = new Event(63, DOT_SEQUENCE, dotSequenceFunction);
 
-Page *page1 = new Page(71, BORDERLESS_LEFT, 1, loremIpsum);
-Page *page2 = new Page(72, BORDERLESS_CENTER, 1, loremIpsum);
-Page *page3 = new Page(73, BORDERLESS_RIGHT, 1, loremIpsum);
-Page *page4 = new Page(74, SOLID_BORDER_LEFT, 1, loremIpsum);
-Page *page5 = new Page(75, SOLID_BORDER_CENTER, 1, loremIpsum);
-Page *page6 = new Page(76, SOLID_BORDER_RIGHT, 1, loremIpsum);
-Page *page7 = new Page(77, ROUNDED_BORDER_LEFT, 1, loremIpsum);
-Page *page8 = new Page(78, ROUNDED_BORDER_CENTER, 1, loremIpsum);
-Page *page9 = new Page(79, ROUNDED_BORDER_RIGHT, 1, loremIpsum);
+View *View1 = new View(71, BORDERLESS_LEFT, 1, loremIpsum);
+View *View2 = new View(72, BORDERLESS_CENTER, 1, loremIpsum);
+View *View3 = new View(73, BORDERLESS_RIGHT, 1, loremIpsum);
+View *View4 = new View(74, SOLID_BORDER_LEFT, 1, loremIpsum);
+View *View5 = new View(75, SOLID_BORDER_CENTER, 1, loremIpsum);
+View *View6 = new View(76, SOLID_BORDER_RIGHT, 1, loremIpsum);
+View *View7 = new View(77, ROUNDED_BORDER_LEFT, 1, loremIpsum);
+View *View8 = new View(78, ROUNDED_BORDER_CENTER, 1, loremIpsum);
+View *View9 = new View(79, ROUNDED_BORDER_RIGHT, 1, loremIpsum);
 
 void setup()
 {
@@ -163,11 +163,11 @@ void setup()
   dsp.setButtons(BUTTON_UP, BUTTON_DOWN);
 
   dsp.addComponent(mainIntro);
-  dsp.addComponent(mainMenu);
+  dsp.addComponent(mainNavigation);
   dsp.addComponent(mainAnimation);
-  dsp.addComponent(mainMenus);
-  dsp.addComponent(mainPages);
-  dsp.addComponent(mainLoads);
+  dsp.addComponent(mainNavigations);
+  dsp.addComponent(mainViews);
+  dsp.addComponent(mainEvents);
 
   dsp.addComponent(intro1);
   dsp.addComponent(intro2);
@@ -178,24 +178,24 @@ void setup()
   dsp.addComponent(intro7);
   dsp.addComponent(intro8);
 
-  dsp.addComponent(menu1);
-  dsp.addComponent(menu2);
-  dsp.addComponent(menu3);
-  dsp.addComponent(menu4);
+  dsp.addComponent(Navigation1);
+  dsp.addComponent(Navigation2);
+  dsp.addComponent(Navigation3);
+  dsp.addComponent(Navigation4);
 
-  dsp.addComponent(load1);
-  dsp.addComponent(load2);
-  dsp.addComponent(load3);
+  dsp.addComponent(Event1);
+  dsp.addComponent(Event2);
+  dsp.addComponent(Event3);
 
-  dsp.addComponent(page1);
-  dsp.addComponent(page2);
-  dsp.addComponent(page3);
-  dsp.addComponent(page4);
-  dsp.addComponent(page5);
-  dsp.addComponent(page6);
-  dsp.addComponent(page7);
-  dsp.addComponent(page8);
-  dsp.addComponent(page9);
+  dsp.addComponent(View1);
+  dsp.addComponent(View2);
+  dsp.addComponent(View3);
+  dsp.addComponent(View4);
+  dsp.addComponent(View5);
+  dsp.addComponent(View6);
+  dsp.addComponent(View7);
+  dsp.addComponent(View8);
+  dsp.addComponent(View9);
 }
 
 void loop()

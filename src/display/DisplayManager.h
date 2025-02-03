@@ -5,7 +5,7 @@
 #include <Adafruit_SSD1306.h>
 #include <map>
 
-#include "display/components/Menu.h"
+#include "display/components/Navigation.h"
 #include "display/IDisplayComponent.h"
 
 class DisplayManager
@@ -18,8 +18,6 @@ public:
     void addComponent(IDisplayComponent *component);
 
     void render();
-    void handleButtons();
-
     void setState(unsigned int n);
 
     unsigned int currentState;
@@ -39,6 +37,8 @@ private:
 
     void moveDown();
     void moveUp();
+
+    void handleButtons();
 
     bool lastButtonUpState;
     bool lastButtonDownState;
