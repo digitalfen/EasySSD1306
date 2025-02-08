@@ -4,6 +4,7 @@
 #include "display/components/Navigation.h"
 #include "display/components/LoadAnimation.h"
 #include "display/components/View.h"
+#include "display/components/ActionPrompt.h"
 
 #define BUTTON_UP 4
 #define BUTTON_DOWN 5
@@ -21,7 +22,8 @@ std::map<int, String> optionsMain = {
     {90, "TextAnimations styles"},
     {80, "Navigation styles"},
     {70, "View styles"},
-    {60, "LoadAnimation styles"}};
+    {60, "LoadAnimation styles"},
+    {50, "PromptAction styles"}};
 
 std::map<int, String> optionsTextAnimations = {
     {1, "Return to Main Navigation"},
@@ -61,6 +63,12 @@ std::map<int, String> optionsLoadAnimationStyles = {
     {61, "Progress bar"},
     {62, "Circle sweep"},
     {63, "Dot sequence"}};
+
+std::map<int, String> optionsActionPromptStyles = {
+    {1, "Return to Main Navigation"},
+    {51, "Simple prompt"},
+    {52, "Prompt with bordes"},
+    {53, "Prompt with icon"}};
 
 std::map<int, String> optionsGeneric = {
     {1, "Return to Main Navigation"},
@@ -124,6 +132,7 @@ Navigation *mainTextAnimation;
 Navigation *mainNavigations;
 Navigation *mainViews;
 Navigation *mainLoadAnimations;
+Navigation *mainActionPrompts;
 
 Navigation *navigation1;
 Navigation *navigation2;
@@ -144,6 +153,10 @@ View *view7;
 View *view8;
 View *view9;
 
+ActionPrompt *actionPrompt1;
+ActionPrompt *actionPrompt2;
+ActionPrompt *actionPrompt3;
+
 void setup()
 {
   Serial.begin(115200);
@@ -163,25 +176,18 @@ void setup()
 
   mainIntro = new TextAnimation(0, REVEAL_FROM_CENTER, "Easy SSD1306");
   mainIntro->nextComponent(1);
-
   intro1 = new TextAnimation(91, REVEAL_FROM_CENTER, "Easy SSD1306");
   intro1->nextComponent(90);
-
   intro2 = new TextAnimation(92, SLIDE_FROM_LEFT, "Easy SSD1306");
   intro2->nextComponent(90);
-
   intro3 = new TextAnimation(93, SLIDE_FROM_RIGHT, "Easy SSD1306");
   intro3->nextComponent(90);
-
   intro4 = new TextAnimation(94, RISE_AND_FALL, "Easy SSD1306");
   intro4->nextComponent(90);
-
   intro5 = new TextAnimation(95, FALL_AND_WRAP, "Easy SSD1306");
   intro5->nextComponent(90);
-
   intro7 = new TextAnimation(97, FALL_BLOCK, "Easy SSD1306");
   intro7->nextComponent(90);
-
   intro8 = new TextAnimation(98, FALL_IN_SEQUENCE, "Easy SSD1306");
   intro8->nextComponent(90);
 
@@ -190,6 +196,7 @@ void setup()
   mainNavigations = new Navigation(80, CURSOR_LIST, optionsNavigationStyles);
   mainViews = new Navigation(70, CURSOR_LIST, optionsViewStyles);
   mainLoadAnimations = new Navigation(60, CURSOR_LIST, optionsLoadAnimationStyles);
+  mainActionPrompts = new Navigation(50, CURSOR_LIST, optionsActionPromptStyles);
 
   navigation1 = new Navigation(81, CURSOR_LIST, optionsGeneric);
   navigation2 = new Navigation(82, HIGHLIGHT_LIST, optionsGeneric);
@@ -198,10 +205,8 @@ void setup()
 
   loadAnimation1 = new LoadAnimation(61, PROGRESS_BAR);
   loadAnimation1->execute(progressBarFunction);
-
   loadAnimation2 = new LoadAnimation(62, CIRCLE_SWEEP);
   loadAnimation2->execute(circleSweepFunction);
-
   loadAnimation3 = new LoadAnimation(63, DOT_SEQUENCE);
   loadAnimation3->execute(dotSequenceFunction);
 
@@ -209,27 +214,24 @@ void setup()
   view1->nextComponent(1);
   view2 = new View(72, BORDERLESS_CENTER, loremIpsum);
   view2->nextComponent(1);
-
   view3 = new View(73, BORDERLESS_RIGHT, loremIpsum);
   view3->nextComponent(1);
-
   view4 = new View(74, SOLID_BORDER_LEFT, loremIpsum);
   view4->nextComponent(1);
-
   view5 = new View(75, SOLID_BORDER_CENTER, loremIpsum);
   view5->nextComponent(1);
-
   view6 = new View(76, SOLID_BORDER_RIGHT, loremIpsum);
   view6->nextComponent(1);
-
   view7 = new View(77, ROUNDED_BORDER_LEFT, loremIpsum);
   view7->nextComponent(1);
-
   view8 = new View(78, ROUNDED_BORDER_CENTER, loremIpsum);
   view8->nextComponent(1);
-
   view9 = new View(79, ROUNDED_BORDER_RIGHT, loremIpsum);
   view9->nextComponent(1);
+
+  actionPrompt1 = new ActionPrompt(51, SIMPLE, 0, "Reset?");
+  actionPrompt2 = new ActionPrompt(52, BORDER, 0, "Reset?");
+  actionPrompt3 = new ActionPrompt(53, ICON, 0, "Reset?");
 
   // Adicionando componentes ao DisplayManager
   dsp.addComponent(mainIntro);
@@ -246,6 +248,7 @@ void setup()
   dsp.addComponent(mainNavigations);
   dsp.addComponent(mainViews);
   dsp.addComponent(mainLoadAnimations);
+  dsp.addComponent(mainActionPrompts);
 
   dsp.addComponent(navigation1);
   dsp.addComponent(navigation2);
@@ -265,6 +268,10 @@ void setup()
   dsp.addComponent(view7);
   dsp.addComponent(view8);
   dsp.addComponent(view9);
+
+  dsp.addComponent(actionPrompt1);
+  dsp.addComponent(actionPrompt2);
+  dsp.addComponent(actionPrompt3);
 }
 
 void loop()

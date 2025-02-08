@@ -7,6 +7,7 @@
 #include <string>
 
 #include "display/IDisplayComponent.h"
+#include "display/DisplayManager.h"
 
 // Enum para os presets de página
 enum ViewPresets

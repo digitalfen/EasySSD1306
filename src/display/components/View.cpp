@@ -1,5 +1,4 @@
 #include "display/components/View.h"
-#include "display/DisplayManager.h"
 
 unsigned int View::render(Adafruit_SSD1306 *display)
 {
