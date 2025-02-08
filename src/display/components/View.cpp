@@ -129,6 +129,16 @@ unsigned int View::render(Adafruit_SSD1306 *display)
     return nextView;
 }
 
+void View::execute(std::function<unsigned int()> execute)
+{
+    this->exec = execute;
+}
+
+void View::nextComponent(unsigned int nextComponent)
+{
+    this->next = nextComponent;
+}
+
 // Preset sem borda, alinhado à esquerda
 unsigned int View::presetView1(Adafruit_SSD1306 *display)
 {

@@ -25,19 +25,21 @@ enum ViewPresets
 class View : public IDisplayComponent
 {
 public:
-    // Construtor da classe View
-    View(unsigned int id, ViewPresets preset, unsigned int next, const std::vector<String> &text)
-        : IDisplayComponent(id), preset(preset), next(next), text(text) {}
+    View(unsigned int id, ViewPresets preset, const std::vector<String> &text)
+        : IDisplayComponent(id), preset(preset), next(id), text(text) {}
 
     unsigned int render(Adafruit_SSD1306 *disp) override;
+    void execute(std::function<unsigned int()> execute);
+    void nextComponent(unsigned int nextComponent);
 
 private:
-    ViewPresets preset;       // Preset da página
-    std::vector<String> text; // Texto a ser exibido, linha por linha
+    ViewPresets preset;
+    std::vector<String> text;
     unsigned int next;
+    std::function<unsigned int()> exec;
 
-    int startIndex = 0;            // Índice da primeira linha visível
-    const int maxVisibleLines = 6; // Número máximo de linhas visíve
+    int startIndex = 0;
+    const int maxVisibleLines = 6;
 
     unsigned int presetView1(Adafruit_SSD1306 *display);
     unsigned int presetView2(Adafruit_SSD1306 *display);

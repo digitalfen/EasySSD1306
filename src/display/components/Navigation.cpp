@@ -32,6 +32,11 @@ unsigned int Navigation::render(Adafruit_SSD1306 *display)
     }
 }
 
+void Navigation::execute(std::function<unsigned int()> execute)
+{
+    this->exec = execute;
+}
+
 unsigned int Navigation::presetNavigation1(Adafruit_SSD1306 *display)
 {
     if (DisplayManager::selectedItem < 0)
