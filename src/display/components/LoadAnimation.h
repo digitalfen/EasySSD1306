@@ -10,9 +10,9 @@
 
 enum LoadAnimationPresets
 {
-    PROGRESS_BAR,
-    CIRCLE_SWEEP,
-    DOT_SEQUENCE
+    LOAD_ANIM_PROGRESS_BAR,
+    LOAD_ANIM_CIRCLE_SWEEP,
+    LOAD_ANIM_DOT_SEQUENCE
 };
 
 class LoadAnimation : public IDisplayComponent

@@ -6,31 +6,31 @@
 unsigned int TextAnimation::render(Adafruit_SSD1306 *display)
 {
 
-    if (preset == REVEAL_FROM_CENTER)
+    if (preset == TXT_ANIM_REVEAL_FROM_CENTER)
     {
         presetIntro1(display);
     }
-    else if (preset == SLIDE_FROM_LEFT)
+    else if (preset == TXT_ANIM_SLIDE_FROM_LEFT)
     {
         presetIntro2(display);
     }
-    else if (preset == SLIDE_FROM_RIGHT)
+    else if (preset == TXT_ANIM_SLIDE_FROM_RIGHT)
     {
         presetIntro3(display);
     }
-    else if (preset == RISE_AND_FALL)
+    else if (preset == TXT_ANIM_RISE_AND_FALL)
     {
         presetIntro4(display);
     }
-    else if (preset == FALL_AND_WRAP)
+    else if (preset == TXT_ANIM_FALL_AND_WRAP)
     {
         presetIntro5(display);
     }
-    else if (preset == FALL_BLOCK)
+    else if (preset == TXT_ANIM_FALL_BLOCK)
     {
         presetIntro7(display);
     }
-    else if (preset == FALL_IN_SEQUENCE)
+    else if (preset == TXT_ANIM_FALL_IN_SEQUENCE)
     {
         presetIntro8(display);
     }

@@ -11,11 +11,10 @@
 // Enum para os presets de Navigation
 enum NavigationPresets
 {
-    CURSOR_LIST,
-    HIGHLIGHT_LIST,
-    VERTICAL_SELECTOR,
-    HORIZONTAL_SELECTOR,
-
+    NAV_CURSOR_LIST,
+    NAV_HIGHLIGHT_LIST,
+    NAV_VERTICAL_SELECTOR,
+    NAV_HORIZONTAL_SELECTOR,
 };
 
 class Navigation : public IDisplayComponent

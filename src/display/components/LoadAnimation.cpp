@@ -3,15 +3,15 @@
 
 unsigned int LoadAnimation::render(Adafruit_SSD1306 *display)
 {
-    if (preset == PROGRESS_BAR)
+    if (preset == LOAD_ANIM_PROGRESS_BAR)
     {
         return presetLoadAnimation1(display);
     }
-    else if (preset == CIRCLE_SWEEP)
+    else if (preset == LOAD_ANIM_CIRCLE_SWEEP)
     {
         return presetLoadAnimation2(display);
     }
-    else if (preset == DOT_SEQUENCE)
+    else if (preset == LOAD_ANIM_DOT_SEQUENCE)
     {
         return presetLoadAnimation3(display);
     }

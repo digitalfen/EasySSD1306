@@ -3,21 +3,20 @@
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <vector> // Certifique-se de incluir este cabeçalho
+#include <vector>
 #include <string>
 
 #include "display/IDisplayComponent.h"
 
 enum TextAnimationPresets
 {
-    REVEAL_FROM_CENTER,
-    SLIDE_FROM_LEFT,
-    SLIDE_FROM_RIGHT,
-    RISE_AND_FALL,
-    FALL_AND_WRAP,
-    FALL_BLOCK,
-    FALL_IN_SEQUENCE,
-
+    TXT_ANIM_REVEAL_FROM_CENTER,
+    TXT_ANIM_SLIDE_FROM_LEFT,
+    TXT_ANIM_SLIDE_FROM_RIGHT,
+    TXT_ANIM_RISE_AND_FALL,
+    TXT_ANIM_FALL_AND_WRAP,
+    TXT_ANIM_FALL_BLOCK,
+    TXT_ANIM_FALL_IN_SEQUENCE,
 };
 
 class TextAnimation : public IDisplayComponent

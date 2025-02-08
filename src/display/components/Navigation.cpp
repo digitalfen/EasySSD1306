@@ -3,19 +3,19 @@
 
 unsigned int Navigation::render(Adafruit_SSD1306 *display)
 {
-    if (preset == CURSOR_LIST)
+    if (preset == NAV_CURSOR_LIST)
     {
         return presetNavigation1(display);
     }
-    else if (preset == HIGHLIGHT_LIST)
+    else if (preset == NAV_HIGHLIGHT_LIST)
     {
         return presetNavigation2(display);
     }
-    else if (preset == VERTICAL_SELECTOR)
+    else if (preset == NAV_VERTICAL_SELECTOR)
     {
         return presetNavigation3(display);
     }
-    else if (preset == HORIZONTAL_SELECTOR)
+    else if (preset == NAV_HORIZONTAL_SELECTOR)
     {
         return presetNavigation4(display);
     }
