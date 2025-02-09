@@ -3,21 +3,24 @@
 
 unsigned int Navigation::render(Adafruit_SSD1306 *display)
 {
+
+    unsigned int nextView = 0;
+
     if (preset == NAV_CURSOR_LIST)
     {
-        return presetNavigation1(display);
+        nextView = presetNavigation1(display);
     }
     else if (preset == NAV_HIGHLIGHT_LIST)
     {
-        return presetNavigation2(display);
+        nextView = presetNavigation2(display);
     }
     else if (preset == NAV_VERTICAL_SELECTOR)
     {
-        return presetNavigation3(display);
+        nextView = presetNavigation3(display);
     }
     else if (preset == NAV_HORIZONTAL_SELECTOR)
     {
-        return presetNavigation4(display);
+        nextView = presetNavigation4(display);
     }
 
     else
@@ -28,24 +31,21 @@ unsigned int Navigation::render(Adafruit_SSD1306 *display)
         display->print("Unknown Navigation preset.");
         display->display();
         delay(2000);
-        return 0; // Retorna 0 para indicar erro
+        return 0;
     }
-}
 
-void Navigation::execute(std::function<unsigned int()> execute)
-{
-    this->exec = execute;
+    return nextView;
 }
 
 unsigned int Navigation::presetNavigation1(Adafruit_SSD1306 *display)
 {
     if (DisplayManager::selectedItem < 0)
     {
-        DisplayManager::selectedItem = options.size() - 1; // Vai para o último item
+        DisplayManager::selectedItem = options.size() - 1;
     }
     else if (DisplayManager::selectedItem >= options.size())
     {
-        DisplayManager::selectedItem = 0; // Vai para o primeiro item
+        DisplayManager::selectedItem = 0;
     }
 
     display->clearDisplay();
@@ -70,20 +70,19 @@ unsigned int Navigation::presetNavigation1(Adafruit_SSD1306 *display)
     {
         String name = it->second;
 
-        // Verifica se o nome ultrapassa o limite da tela
-        if (name.length() > 19) // 10 caracteres é o limite (ajuste conforme a necessidade)
+        if (name.length() > 19)
         {
-            name = name.substring(0, 17) + ".."; // Mantém 7 caracteres e adiciona '...'
+            name = name.substring(0, 17) + "..";
         }
 
         if (i == DisplayManager::selectedItem)
         {
             display->setCursor(0, startY + index * spacing);
-            display->print(">"); // ">" à esquerda
+            display->print(">");
         }
         else
         {
-            display->setTextColor(SSD1306_WHITE); // Cor normal
+            display->setTextColor(SSD1306_WHITE);
         }
 
         display->setCursor(10, startY + index * spacing);
@@ -103,7 +102,6 @@ unsigned int Navigation::presetNavigation1(Adafruit_SSD1306 *display)
 
     if (DisplayManager::confirmItem)
     {
-        Serial.println(optionState);
         nextState = optionState;
     }
 
@@ -143,21 +141,20 @@ unsigned int Navigation::presetNavigation2(Adafruit_SSD1306 *display)
     {
         String name = it->second;
 
-        // Verifica se o nome ultrapassa o limite da tela
-        if (name.length() > 19) // 10 caracteres é o limite (ajuste conforme a necessidade)
+        if (name.length() > 19)
         {
-            name = name.substring(0, 17) + "..."; // Mantém 7 caracteres e adiciona '...'
+            name = name.substring(0, 17) + "...";
         }
 
         if (i == DisplayManager::selectedItem)
         {
-            display->setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Cor invertida
+            display->setTextColor(SSD1306_BLACK, SSD1306_WHITE);
             display->setCursor(0, startY + index * spacing);
-            display->print(" "); // ">" à esquerda
+            display->print(" ");
         }
         else
         {
-            display->setTextColor(SSD1306_WHITE); // Cor normal
+            display->setTextColor(SSD1306_WHITE);
         }
 
         display->setCursor(10, startY + index * spacing);
@@ -188,55 +185,51 @@ unsigned int Navigation::presetNavigation3(Adafruit_SSD1306 *display)
 {
     if (DisplayManager::selectedItem < 0)
     {
-        DisplayManager::selectedItem = options.size() - 1; // Vai para o último item
+        DisplayManager::selectedItem = options.size() - 1;
     }
     else if (DisplayManager::selectedItem >= options.size())
     {
-        DisplayManager::selectedItem = 0; // Vai para o primeiro item
+        DisplayManager::selectedItem = 0;
     }
 
-    display->clearDisplay(); // Limpa a tela antes de desenhar o Navigation
+    display->clearDisplay();
 
-    int maxItemsOnScreen = 1; // Apenas um item será centralizado
-    int spacing = 12;         // Espaçamento entre os itens
+    int maxItemsOnScreen = 1;
+    int spacing = 12;
     int startY = (display->height() - (maxItemsOnScreen * spacing)) / 2;
 
-    // Define a faixa de itens a serem exibidos
     int startIndex = DisplayManager::selectedItem;
     int endIndex = startIndex + 1;
 
-    // Desenha as opções no centro
     auto it = options.begin();
-    std::advance(it, startIndex); // Avança até o item selecionado
-    String name = it->second;     // Nome do item
+    std::advance(it, startIndex);
+    String name = it->second;
 
-    // Verifica se o nome ultrapassa o limite da tela
-    if (name.length() > 19) // 10 caracteres é o limite (ajuste conforme a necessidade)
+    if (name.length() > 19)
     {
-        name = name.substring(0, 17) + "..."; // Mantém 7 caracteres e adiciona '...'
+        name = name.substring(0, 17) + "...";
+        /
     }
 
-    // Exibe o item atual
     display->setTextColor(SSD1306_WHITE);
     display->setCursor(20, startY);
     display->print(name.c_str());
 
-    // Se houver mais itens acima ou abaixo, exibe setas
     if (startIndex > 0)
     {
         display->setTextColor(SSD1306_WHITE);
-        display->setCursor(0, startY - 20); // Acima
+        display->setCursor(0, startY - 20);
         display->print("/\\");
     }
     if (startIndex < options.size() - 1)
     {
         display->setTextColor(SSD1306_WHITE);
-        display->setCursor(0, startY + 20); // Abaixo
+        display->setCursor(0, startY + 20);
         display->print("\\/");
     }
 
-    display->display(); // Atualiza a tela
-    delay(150);         // Delay para animação
+    display->display();
+    delay(150);
 
     auto itt = options.begin();
     std::advance(itt, DisplayManager::selectedItem);
@@ -257,58 +250,51 @@ unsigned int Navigation::presetNavigation4(Adafruit_SSD1306 *display)
 {
     if (DisplayManager::selectedItem < 0)
     {
-        DisplayManager::selectedItem = options.size() - 1; // Vai para o último item
+        DisplayManager::selectedItem = options.size() - 1;
     }
     else if (DisplayManager::selectedItem >= options.size())
     {
-        DisplayManager::selectedItem = 0; // Vai para o primeiro item
+        DisplayManager::selectedItem = 0;
     }
 
-    display->clearDisplay(); // Limpa a tela antes de desenhar o Navigation
+    display->clearDisplay();
 
-    // Define a faixa de itens a serem exibidos
     int startIndex = DisplayManager::selectedItem;
 
-    // Obtém o nome do item selecionado
     auto it = options.begin();
     std::advance(it, startIndex);
-    String name = it->second; // Nome do item
+    String name = it->second;
 
-    // Verifica se o nome ultrapassa o limite da tela
-    if (name.length() > 19) // 10 caracteres é o limite (ajuste conforme a necessidade)
+    if (name.length() > 19)
     {
-        name = name.substring(0, 17) + "..."; // Mantém 7 caracteres e adiciona '...'
+        name = name.substring(0, 17) + "...";
     }
 
-    // Calcula a largura do texto para centralização horizontal
     int16_t x1, y1;
     uint16_t textWidth, textHeight;
     display->getTextBounds(name.c_str(), 0, 0, &x1, &y1, &textWidth, &textHeight);
 
-    // Centraliza o texto horizontalmente
     int centerX = (display->width() - textWidth) / 2;
 
-    // Exibe o item atual
     display->setTextColor(SSD1306_WHITE);
     display->setCursor(centerX, 20);
     display->print(name.c_str());
 
-    // Se houver mais itens à esquerda ou direita, exibe setas
     if (startIndex > 0)
     {
         display->setTextColor(SSD1306_WHITE);
-        display->setCursor(10, 20); // Esquerda
+        display->setCursor(10, 20);
         display->print("<");
     }
     if (startIndex < options.size() - 1)
     {
         display->setTextColor(SSD1306_WHITE);
-        display->setCursor(display->width() - 10, 20); // Direita
+        display->setCursor(display->width() - 10, 20);
         display->print(">");
     }
 
-    display->display(); // Atualiza a tela
-    delay(150);         // Delay para animação
+    display->display();
+    delay(150);
 
     auto itt = options.begin();
     std::advance(itt, DisplayManager::selectedItem);

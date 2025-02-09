@@ -27,15 +27,13 @@ public:
 
 private:
     std::function<unsigned int()> exec;
-    const char *text;
     unsigned int next;
 
-    LoadAnimationPresets preset; // Preset do menu
+    LoadAnimationPresets preset;
 
-    // Métodos privados para renderizar os menus específicos
-    unsigned int presetLoadAnimation1(Adafruit_SSD1306 *display);
-    unsigned int presetLoadAnimation2(Adafruit_SSD1306 *display);
-    unsigned int presetLoadAnimation3(Adafruit_SSD1306 *display);
+    void presetLoadAnimation1(Adafruit_SSD1306 *display);
+    void presetLoadAnimation2(Adafruit_SSD1306 *display);
+    void presetLoadAnimation3(Adafruit_SSD1306 *display);
 };
 
 #endif

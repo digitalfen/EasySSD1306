@@ -7,6 +7,11 @@ unsigned int ImageView::render(Adafruit_SSD1306 *display)
 {
     unsigned int nextView = 0;
 
+    if (exec)
+    {
+        next = exec();
+    }
+
     display->clearDisplay();
 
     if (preset == IMG_VIEW_DEFAULT)
@@ -24,7 +29,7 @@ unsigned int ImageView::render(Adafruit_SSD1306 *display)
     }
     display->display();
 
-    return nextView;
+    return next;
 }
 
 void ImageView::execute(std::function<unsigned int()> execute)

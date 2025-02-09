@@ -3,17 +3,23 @@
 
 unsigned int LoadAnimation::render(Adafruit_SSD1306 *display)
 {
+
+    if (exec)
+    {
+        next = exec();
+    }
+
     if (preset == LOAD_ANIM_PROGRESS_BAR)
     {
-        return presetLoadAnimation1(display);
+        presetLoadAnimation1(display);
     }
     else if (preset == LOAD_ANIM_CIRCLE_SWEEP)
     {
-        return presetLoadAnimation2(display);
+        presetLoadAnimation2(display);
     }
     else if (preset == LOAD_ANIM_DOT_SEQUENCE)
     {
-        return presetLoadAnimation3(display);
+        presetLoadAnimation3(display);
     }
     else
     {
@@ -27,11 +33,9 @@ unsigned int LoadAnimation::render(Adafruit_SSD1306 *display)
         return 0; // Retorna 0 para indicar erro
     }
 
-    if (exec)
-    {
-        exec();
-    }
+    return next;
 }
+
 void LoadAnimation::execute(std::function<unsigned int()> execute)
 {
     this->exec = execute;
@@ -41,7 +45,7 @@ void LoadAnimation::nextComponent(unsigned int nextComponent)
 {
     this->next = nextComponent;
 }
-unsigned int LoadAnimation::presetLoadAnimation1(Adafruit_SSD1306 *display)
+void LoadAnimation::presetLoadAnimation1(Adafruit_SSD1306 *display)
 {
     display->clearDisplay();
     for (int i = 0; i <= 100; i++)
@@ -52,10 +56,9 @@ unsigned int LoadAnimation::presetLoadAnimation1(Adafruit_SSD1306 *display)
     }
     display->clearDisplay();
     display->display();
-    return exec();
 }
 
-unsigned int LoadAnimation::presetLoadAnimation2(Adafruit_SSD1306 *display)
+void LoadAnimation::presetLoadAnimation2(Adafruit_SSD1306 *display)
 {
 
     int x = display->width() / 2;
@@ -72,9 +75,8 @@ unsigned int LoadAnimation::presetLoadAnimation2(Adafruit_SSD1306 *display)
         delay(250);
         display->clearDisplay();
     }
-    return exec();
 }
-unsigned int LoadAnimation::presetLoadAnimation3(Adafruit_SSD1306 *display)
+void LoadAnimation::presetLoadAnimation3(Adafruit_SSD1306 *display)
 {
     display->clearDisplay();
     int xStart = display->width() / 2 - 20; // Posição inicial no eixo X
@@ -95,8 +97,6 @@ unsigned int LoadAnimation::presetLoadAnimation3(Adafruit_SSD1306 *display)
     }
 
     display->display();
-
-    return exec();
 }
 
 // Implementações de presetLoadAnimation2, presetLoadAnimation3, presetLoadAnimation4, presetLoadAnimation5

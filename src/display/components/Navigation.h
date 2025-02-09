@@ -25,12 +25,9 @@ public:
 
     unsigned int render(Adafruit_SSD1306 *disp) override;
 
-    void execute(std::function<unsigned int()> execute);
-
 private:
     NavigationPresets preset;
     std::map<int, String> options;
-    std::function<unsigned int()> exec;
 
     unsigned int presetNavigation1(Adafruit_SSD1306 *display);
     unsigned int presetNavigation2(Adafruit_SSD1306 *display);

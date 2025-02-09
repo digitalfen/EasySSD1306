@@ -7,6 +7,11 @@ unsigned int Alert::render(Adafruit_SSD1306 *display)
 {
     unsigned int nextView = 0;
 
+    if (exec)
+    {
+        next = exec();
+    }
+
     display->clearDisplay();
 
     if (preset == ALERT_DEFAULT)

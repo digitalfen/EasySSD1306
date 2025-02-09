@@ -7,6 +7,11 @@ unsigned int Prompt::render(Adafruit_SSD1306 *display)
 {
     unsigned int nextView = 0;
 
+    if (exec)
+    {
+        next = exec();
+    }
+
     display->clearDisplay();
 
     if (preset == PROMPT_DEFAULT)
@@ -35,6 +40,11 @@ unsigned int Prompt::render(Adafruit_SSD1306 *display)
 void Prompt::execute(std::function<unsigned int()> execute)
 {
     this->exec = execute;
+}
+
+void Prompt::nextComponent(unsigned int nextComponent)
+{
+    this->next = nextComponent;
 }
 
 unsigned int Prompt::preset1(Adafruit_SSD1306 *display)

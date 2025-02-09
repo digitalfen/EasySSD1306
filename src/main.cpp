@@ -7,6 +7,7 @@
 #include "display/components/Prompt.h"
 #include "display/components/Alert.h"
 #include "display/components/ImageView.h"
+#include "display/components/ImageAnimation.h"
 
 #define BUTTON_UP 4
 #define BUTTON_DOWN 5
@@ -21,13 +22,14 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 DisplayManager dsp;
 
 std::map<int, String> optionsMain = {
-    {90, "TextAnimations styles"},
-    {80, "Navigation styles"},
-    {70, "TextView styles"},
-    {60, "LoadAnimation styles"},
-    {50, "Prompt styles"},
-    {40, "Alert styles"},
-    {30, "ImageView styles"}};
+    {90, "TextAnimation"},
+    {80, "Navigation"},
+    {70, "TextView"},
+    {60, "LoadAnimation"},
+    {50, "Prompt"},
+    {40, "Alert"},
+    {30, "ImageView"},
+    {100, "ImageAnimation"}};
 
 std::map<int, String> optionsTextAnimations = {
     {1, "Return to Main Navigation"},
@@ -83,36 +85,47 @@ std::map<int, String> optionsImgViewStyles = {
     {31, "32x32"},
     {32, "64x64"}};
 
-std::map<int, String> optionsGeneric = {
+std::map<int, String> optionsImgAnimStyles = {
     {1, "Return to Main Navigation"},
-    {80, "Return to Styles"},
-    {91, "Lorem ipsum"},
-    {92, "Lorem ipsum"},
-    {93, "Lorem ipsum"},
-    {94, "Lorem ipsum"},
-    {95, "Lorem ipsum"},
-    {96, "Lorem ipsum"},
-    {97, "Lorem ipsum"},
-    {98, "Lorem ipsum"},
-    {99, "Lorem ipsum"},
+    {101, "From left"},
+    {102, "From right"},
+    {103, "From top"},
+    {104, "From bottom"},
+    {105, "Pixel by pixel"},
+    {106, "Draw lines"},
+    {107, "Fade in"}};
+
+std::map<int, String>
+    optionsGeneric = {
+        {1, "Return to Main Navigation"},
+        {80, "Return to Styles"},
+        {91, "Lorem ipsum"},
+        {92, "Lorem ipsum"},
+        {93, "Lorem ipsum"},
+        {94, "Lorem ipsum"},
+        {95, "Lorem ipsum"},
+        {96, "Lorem ipsum"},
+        {97, "Lorem ipsum"},
+        {98, "Lorem ipsum"},
+        {99, "Lorem ipsum"},
 };
 
 unsigned int progressBarFunction()
 {
-  Serial.println("progressBarFunction");
-  return 60;
+    Serial.println("progressBarFunction");
+    return 60;
 };
 
 unsigned int circleSweepFunction()
 {
-  Serial.println("circleSweepFunction");
-  return 60;
+    Serial.println("circleSweepFunction");
+    return 60;
 };
 
 unsigned int dotSequenceFunction()
 {
-  Serial.println("dotSequenceFunction");
-  return 60;
+    Serial.println("dotSequenceFunction");
+    return 60;
 };
 
 std::vector<String> loremIpsum = {
@@ -200,6 +213,7 @@ Navigation *mainLoadAnimations;
 Navigation *mainPrompts;
 Navigation *mainAlert;
 Navigation *mainImgView;
+Navigation *mainImgAnimation;
 
 Navigation *navigation1;
 Navigation *navigation2;
@@ -230,140 +244,176 @@ Alert *alert3;
 ImageView *imageView1;
 ImageView *imageView2;
 
+ImageAnimation *imageAnim1;
+ImageAnimation *imageAnim2;
+ImageAnimation *imageAnim3;
+ImageAnimation *imageAnim4;
+ImageAnimation *imageAnim5;
+ImageAnimation *imageAnim6;
+ImageAnimation *imageAnim7;
+
 void setup()
 {
-  Serial.begin(115200);
+    Serial.begin(115200);
 
-  if (!display.begin(SSD1306_I2C_ADDRESS, SSD1306_I2C_ADDRESS))
-  {
-    Serial.println(F("Falha ao inicializar o display SSD1306!"));
-    for (;;)
-      ;
-  }
+    if (!display.begin(SSD1306_I2C_ADDRESS, SSD1306_I2C_ADDRESS))
+    {
+        Serial.println(F("Falha ao inicializar o display SSD1306!"));
+        for (;;)
+            ;
+    }
 
-  pinMode(BUTTON_UP, INPUT_PULLUP);
-  pinMode(BUTTON_DOWN, INPUT_PULLUP);
+    pinMode(BUTTON_UP, INPUT_PULLUP);
+    pinMode(BUTTON_DOWN, INPUT_PULLUP);
 
-  dsp.setDisplay(&display);
-  dsp.setButtons(BUTTON_UP, BUTTON_DOWN);
+    dsp.setDisplay(&display);
+    dsp.setButtons(BUTTON_UP, BUTTON_DOWN);
 
-  mainIntro = new TextAnimation(0, TXT_ANIM_REVEAL_FROM_CENTER, "Easy SSD1306");
-  mainIntro->nextComponent(1);
-  intro1 = new TextAnimation(91, TXT_ANIM_REVEAL_FROM_CENTER, "Easy SSD1306");
-  intro1->nextComponent(90);
-  intro2 = new TextAnimation(92, TXT_ANIM_SLIDE_FROM_LEFT, "Easy SSD1306");
-  intro2->nextComponent(90);
-  intro3 = new TextAnimation(93, TXT_ANIM_SLIDE_FROM_RIGHT, "Easy SSD1306");
-  intro3->nextComponent(90);
-  intro4 = new TextAnimation(94, TXT_ANIM_RISE_AND_FALL, "Easy SSD1306");
-  intro4->nextComponent(90);
-  intro5 = new TextAnimation(95, TXT_ANIM_FALL_AND_WRAP, "Easy SSD1306");
-  intro5->nextComponent(90);
-  intro7 = new TextAnimation(97, TXT_ANIM_FALL_BLOCK, "Easy SSD1306");
-  intro7->nextComponent(90);
-  intro8 = new TextAnimation(98, TXT_ANIM_FALL_IN_SEQUENCE, "Easy SSD1306");
-  intro8->nextComponent(90);
+    mainIntro = new TextAnimation(0, TXT_ANIM_REVEAL_FROM_CENTER, "Easy SSD1306");
+    mainIntro->nextComponent(1);
+    intro1 = new TextAnimation(91, TXT_ANIM_REVEAL_FROM_CENTER, "Easy SSD1306");
+    intro1->nextComponent(90);
+    intro2 = new TextAnimation(92, TXT_ANIM_SLIDE_FROM_LEFT, "Easy SSD1306");
+    intro2->nextComponent(90);
+    intro3 = new TextAnimation(93, TXT_ANIM_SLIDE_FROM_RIGHT, "Easy SSD1306");
+    intro3->nextComponent(90);
+    intro4 = new TextAnimation(94, TXT_ANIM_RISE_AND_FALL, "Easy SSD1306");
+    intro4->nextComponent(90);
+    intro5 = new TextAnimation(95, TXT_ANIM_FALL_AND_WRAP, "Easy SSD1306");
+    intro5->nextComponent(90);
+    intro7 = new TextAnimation(97, TXT_ANIM_FALL_BLOCK, "Easy SSD1306");
+    intro7->nextComponent(90);
+    intro8 = new TextAnimation(98, TXT_ANIM_FALL_IN_SEQUENCE, "Easy SSD1306");
+    intro8->nextComponent(90);
 
-  mainNavigation = new Navigation(1, NAV_CURSOR_LIST, optionsMain);
-  mainTextAnimation = new Navigation(90, NAV_CURSOR_LIST, optionsTextAnimations);
-  mainNavigations = new Navigation(80, NAV_CURSOR_LIST, optionsNavigationStyles);
-  mainTextViews = new Navigation(70, NAV_CURSOR_LIST, optionsTextViewStyles);
-  mainLoadAnimations = new Navigation(60, NAV_CURSOR_LIST, optionsLoadAnimationStyles);
-  mainPrompts = new Navigation(50, NAV_CURSOR_LIST, optionsPromptStyles);
-  mainAlert = new Navigation(40, NAV_CURSOR_LIST, optionsAlertStyles);
-  mainImgView = new Navigation(30, NAV_CURSOR_LIST, optionsImgViewStyles);
+    mainNavigation = new Navigation(1, NAV_CURSOR_LIST, optionsMain);
+    mainTextAnimation = new Navigation(90, NAV_CURSOR_LIST, optionsTextAnimations);
+    mainNavigations = new Navigation(80, NAV_CURSOR_LIST, optionsNavigationStyles);
+    mainTextViews = new Navigation(70, NAV_CURSOR_LIST, optionsTextViewStyles);
+    mainLoadAnimations = new Navigation(60, NAV_CURSOR_LIST, optionsLoadAnimationStyles);
+    mainPrompts = new Navigation(50, NAV_CURSOR_LIST, optionsPromptStyles);
+    mainAlert = new Navigation(40, NAV_CURSOR_LIST, optionsAlertStyles);
+    mainImgView = new Navigation(30, NAV_CURSOR_LIST, optionsImgViewStyles);
+    mainImgAnimation = new Navigation(100, NAV_CURSOR_LIST, optionsImgAnimStyles);
 
-  navigation1 = new Navigation(81, NAV_CURSOR_LIST, optionsGeneric);
-  navigation2 = new Navigation(82, NAV_HIGHLIGHT_LIST, optionsGeneric);
-  navigation3 = new Navigation(83, NAV_VERTICAL_SELECTOR, optionsGeneric);
-  navigation4 = new Navigation(84, NAV_HORIZONTAL_SELECTOR, optionsGeneric);
+    navigation1 = new Navigation(81, NAV_CURSOR_LIST, optionsGeneric);
+    navigation2 = new Navigation(82, NAV_HIGHLIGHT_LIST, optionsGeneric);
+    navigation3 = new Navigation(83, NAV_VERTICAL_SELECTOR, optionsGeneric);
+    navigation4 = new Navigation(84, NAV_HORIZONTAL_SELECTOR, optionsGeneric);
 
-  loadAnimation1 = new LoadAnimation(61, LOAD_ANIM_PROGRESS_BAR);
-  loadAnimation1->execute(progressBarFunction);
-  loadAnimation2 = new LoadAnimation(62, LOAD_ANIM_CIRCLE_SWEEP);
-  loadAnimation2->execute(circleSweepFunction);
-  loadAnimation3 = new LoadAnimation(63, LOAD_ANIM_DOT_SEQUENCE);
-  loadAnimation3->execute(dotSequenceFunction);
+    loadAnimation1 = new LoadAnimation(61, LOAD_ANIM_PROGRESS_BAR);
+    loadAnimation1->execute(progressBarFunction);
+    loadAnimation2 = new LoadAnimation(62, LOAD_ANIM_CIRCLE_SWEEP);
+    loadAnimation2->execute(circleSweepFunction);
+    loadAnimation3 = new LoadAnimation(63, LOAD_ANIM_DOT_SEQUENCE);
+    loadAnimation3->execute(dotSequenceFunction);
 
-  textView1 = new TextView(71, TXT_VIEW_BORDERLESS_LEFT, loremIpsum);
-  textView1->nextComponent(1);
-  textView2 = new TextView(72, TXT_VIEW_BORDERLESS_CENTER, loremIpsum);
-  textView2->nextComponent(1);
-  textView3 = new TextView(73, TXT_VIEW_BORDERLESS_RIGHT, loremIpsum);
-  textView3->nextComponent(1);
-  textView4 = new TextView(74, TXT_VIEW_SOLID_BORDER_LEFT, loremIpsum);
-  textView4->nextComponent(1);
-  textView5 = new TextView(75, TXT_VIEW_SOLID_BORDER_CENTER, loremIpsum);
-  textView5->nextComponent(1);
-  textView6 = new TextView(76, TXT_VIEW_SOLID_BORDER_RIGHT, loremIpsum);
-  textView6->nextComponent(1);
-  textView7 = new TextView(77, TXT_VIEW_ROUNDED_BORDER_LEFT, loremIpsum);
-  textView7->nextComponent(1);
-  textView8 = new TextView(78, TXT_VIEW_ROUNDED_BORDER_CENTER, loremIpsum);
-  textView8->nextComponent(1);
-  textView9 = new TextView(79, TXT_VIEW_ROUNDED_BORDER_RIGHT, loremIpsum);
-  textView9->nextComponent(1);
+    textView1 = new TextView(71, TXT_VIEW_BORDERLESS_LEFT, loremIpsum);
+    textView1->nextComponent(70);
+    textView2 = new TextView(72, TXT_VIEW_BORDERLESS_CENTER, loremIpsum);
+    textView2->nextComponent(70);
+    textView3 = new TextView(73, TXT_VIEW_BORDERLESS_RIGHT, loremIpsum);
+    textView3->nextComponent(70);
+    textView4 = new TextView(74, TXT_VIEW_SOLID_BORDER_LEFT, loremIpsum);
+    textView4->nextComponent(70);
+    textView5 = new TextView(75, TXT_VIEW_SOLID_BORDER_CENTER, loremIpsum);
+    textView5->nextComponent(70);
+    textView6 = new TextView(76, TXT_VIEW_SOLID_BORDER_RIGHT, loremIpsum);
+    textView6->nextComponent(70);
+    textView7 = new TextView(77, TXT_VIEW_ROUNDED_BORDER_LEFT, loremIpsum);
+    textView7->nextComponent(70);
+    textView8 = new TextView(78, TXT_VIEW_ROUNDED_BORDER_CENTER, loremIpsum);
+    textView8->nextComponent(70);
+    textView9 = new TextView(79, TXT_VIEW_ROUNDED_BORDER_RIGHT, loremIpsum);
+    textView9->nextComponent(70);
 
-  prompt1 = new Prompt(51, PROMPT_DEFAULT, 0, "Reset?");
-  prompt2 = new Prompt(52, PROMPT_WITH_BORDERS, 0, "Reset?");
+    prompt1 = new Prompt(51, PROMPT_DEFAULT, "Reset?");
+    prompt1->nextComponent(50);
+    prompt2 = new Prompt(52, PROMPT_WITH_BORDERS, "Reset?");
+    prompt2->nextComponent(50);
 
-  alert1 = new Alert(41, ALERT_DEFAULT, 0, "Warning!");
-  alert2 = new Alert(42, ALERT_WITH_BORDERS, 0, "Warning!");
+    alert1 = new Alert(41, ALERT_DEFAULT, "Warning!");
+    alert1->nextComponent(40);
+    alert2 = new Alert(42, ALERT_WITH_BORDERS, "Warning!");
+    alert2->nextComponent(40);
 
-  imageView1 = new ImageView(31, IMG_VIEW_DEFAULT, image32x32, 32, 32);
-  imageView1->nextComponent(1);
+    imageView1 = new ImageView(31, IMG_VIEW_DEFAULT, image32x32, 32, 32);
+    imageView1->nextComponent(1);
+    imageView2 = new ImageView(32, IMG_VIEW_DEFAULT, image64x64, 64, 64);
+    imageView2->nextComponent(1);
 
-  imageView2 = new ImageView(32, IMG_VIEW_DEFAULT, image64x64, 64, 64);
-  imageView2->nextComponent(1);
+    imageAnim1 = new ImageAnimation(101, IMG_ANIM_SLIDE_FROM_LEFT, image64x64, 64, 64);
+    imageAnim1->nextComponent(90);
+    imageAnim2 = new ImageAnimation(102, IMG_ANIM_SLIDE_FROM_RIGHT, image64x64, 64, 64);
+    imageAnim2->nextComponent(90);
+    imageAnim3 = new ImageAnimation(103, IMG_ANIM_SLIDE_FROM_TOP, image64x64, 64, 64);
+    imageAnim3->nextComponent(90);
+    imageAnim4 = new ImageAnimation(104, IMG_ANIM_SLIDE_FROM_BOTTOM, image64x64, 64, 64);
+    imageAnim4->nextComponent(90);
+    imageAnim5 = new ImageAnimation(105, IMG_ANIM_PIXEL_BY_PIXEL, image64x64, 64, 64);
+    imageAnim5->nextComponent(90);
+    imageAnim6 = new ImageAnimation(106, IMG_ANIM_DRAW_LINES, image64x64, 64, 64);
+    imageAnim6->nextComponent(90);
+    imageAnim7 = new ImageAnimation(107, IMG_ANIM_FADE_IN_FADE_OUT, image64x64, 64, 64);
+    imageAnim7->nextComponent(90);
 
-  dsp.addComponent(mainIntro);
-  dsp.addComponent(intro1);
-  dsp.addComponent(intro2);
-  dsp.addComponent(intro3);
-  dsp.addComponent(intro4);
-  dsp.addComponent(intro5);
-  dsp.addComponent(intro7);
-  dsp.addComponent(intro8);
+    dsp.addComponent(mainIntro);
+    dsp.addComponent(intro1);
+    dsp.addComponent(intro2);
+    dsp.addComponent(intro3);
+    dsp.addComponent(intro4);
+    dsp.addComponent(intro5);
+    dsp.addComponent(intro7);
+    dsp.addComponent(intro8);
 
-  dsp.addComponent(mainNavigation);
-  dsp.addComponent(mainTextAnimation);
-  dsp.addComponent(mainNavigations);
-  dsp.addComponent(mainTextViews);
-  dsp.addComponent(mainLoadAnimations);
-  dsp.addComponent(mainPrompts);
-  dsp.addComponent(mainAlert);
-  dsp.addComponent(mainImgView);
+    dsp.addComponent(mainNavigation);
+    dsp.addComponent(mainTextAnimation);
+    dsp.addComponent(mainNavigations);
+    dsp.addComponent(mainTextViews);
+    dsp.addComponent(mainLoadAnimations);
+    dsp.addComponent(mainPrompts);
+    dsp.addComponent(mainAlert);
+    dsp.addComponent(mainImgView);
+    dsp.addComponent(mainImgAnimation);
 
-  dsp.addComponent(navigation1);
-  dsp.addComponent(navigation2);
-  dsp.addComponent(navigation3);
-  dsp.addComponent(navigation4);
+    dsp.addComponent(navigation1);
+    dsp.addComponent(navigation2);
+    dsp.addComponent(navigation3);
+    dsp.addComponent(navigation4);
 
-  dsp.addComponent(loadAnimation1);
-  dsp.addComponent(loadAnimation2);
-  dsp.addComponent(loadAnimation3);
+    dsp.addComponent(loadAnimation1);
+    dsp.addComponent(loadAnimation2);
+    dsp.addComponent(loadAnimation3);
 
-  dsp.addComponent(textView1);
-  dsp.addComponent(textView2);
-  dsp.addComponent(textView3);
-  dsp.addComponent(textView4);
-  dsp.addComponent(textView5);
-  dsp.addComponent(textView6);
-  dsp.addComponent(textView7);
-  dsp.addComponent(textView8);
-  dsp.addComponent(textView9);
+    dsp.addComponent(textView1);
+    dsp.addComponent(textView2);
+    dsp.addComponent(textView3);
+    dsp.addComponent(textView4);
+    dsp.addComponent(textView5);
+    dsp.addComponent(textView6);
+    dsp.addComponent(textView7);
+    dsp.addComponent(textView8);
+    dsp.addComponent(textView9);
 
-  dsp.addComponent(prompt1);
-  dsp.addComponent(prompt2);
+    dsp.addComponent(prompt1);
+    dsp.addComponent(prompt2);
 
-  dsp.addComponent(alert1);
-  dsp.addComponent(alert2);
+    dsp.addComponent(alert1);
+    dsp.addComponent(alert2);
 
-  dsp.addComponent(imageView1);
-  dsp.addComponent(imageView2);
+    dsp.addComponent(imageView1);
+    dsp.addComponent(imageView2);
+
+    dsp.addComponent(imageAnim1);
+    dsp.addComponent(imageAnim2);
+    dsp.addComponent(imageAnim3);
+    dsp.addComponent(imageAnim4);
+    dsp.addComponent(imageAnim5);
+    dsp.addComponent(imageAnim6);
+    dsp.addComponent(imageAnim7);
 }
 
 void loop()
 {
-  dsp.render();
+    dsp.render();
 }

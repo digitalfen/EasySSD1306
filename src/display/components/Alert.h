@@ -18,8 +18,8 @@ enum AlertPresets
 class Alert : public IDisplayComponent
 {
 public:
-    Alert(unsigned int id, AlertPresets preset, unsigned int next, const char *message)
-        : IDisplayComponent(id), message(message), next(next), preset(preset) {}
+    Alert(unsigned int id, AlertPresets preset, const char *message)
+        : IDisplayComponent(id), message(message), next(id), preset(preset) {}
 
     unsigned int render(Adafruit_SSD1306 *display) override;
 

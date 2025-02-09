@@ -6,6 +6,13 @@
 unsigned int TextAnimation::render(Adafruit_SSD1306 *display)
 {
 
+    unsigned int nextView = 0;
+
+    if (exec)
+    {
+        next = exec();
+    }
+
     if (preset == TXT_ANIM_REVEAL_FROM_CENTER)
     {
         presetIntro1(display);
@@ -44,7 +51,7 @@ unsigned int TextAnimation::render(Adafruit_SSD1306 *display)
         delay(3000);
     }
 
-    return 1;
+    return next;
 }
 
 void TextAnimation::execute(std::function<unsigned int()> execute)
@@ -52,7 +59,8 @@ void TextAnimation::execute(std::function<unsigned int()> execute)
     this->exec = execute;
 }
 
-void TextAnimation::nextComponent(unsigned int nextComponent) {
+void TextAnimation::nextComponent(unsigned int nextComponent)
+{
     this->next = nextComponent;
 }
 void TextAnimation::presetIntro1(Adafruit_SSD1306 *display)
