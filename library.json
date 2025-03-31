@@ -1,0 +1,24 @@
+{
+    "name": "EasySSD1306",
+    "version": "1.0.0",
+    "description": "An easy-to-use library for creating rich graphical interfaces on SSD1306 OLED displays",
+    "keywords": "display, oled, ssd1306, esp32, esp8266, arduino",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/digitalfen/EasySSD1306.git"
+    },
+    "authors": [
+        {
+            "name": "Digitalfen",
+            "email": "digitalfen@gmail.com",
+            "maintainer": true
+        }
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "adafruit/Adafruit SSD1306": "^2.5.13",
+        "adafruit/Adafruit GFX Library": "^1.11.5"
+    },
+    "frameworks": "arduino",
+    "platforms": ["espressif32", "espressif8266", "atmelavr"]
+} 

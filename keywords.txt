@@ -1,0 +1,48 @@
+# Syntax Coloring Map For EasySSD1306
+
+# Class Names
+DisplayManager	KEYWORD1
+TextView		KEYWORD1
+Navigation		KEYWORD1
+LoadAnimation	KEYWORD1
+Alert			KEYWORD1
+ImageView		KEYWORD1
+TextAnimation	KEYWORD1
+ImageAnimation	KEYWORD1
+Prompt			KEYWORD1
+
+# Methods and Functions
+begin			KEYWORD2
+update			KEYWORD2
+addComponent		KEYWORD2
+setI2CPins		KEYWORD2
+setSPIPins		KEYWORD2
+setButtonPins		KEYWORD2
+isButton1Pressed	KEYWORD2
+isButton2Pressed	KEYWORD2
+wasButton1Pressed	KEYWORD2
+wasButton2Pressed	KEYWORD2
+setText			KEYWORD2
+setPosition		KEYWORD2
+setStyle		KEYWORD2
+next			KEYWORD2
+previous		KEYWORD2
+getSelectedIndex	KEYWORD2
+start			KEYWORD2
+stop			KEYWORD2
+isRunning		KEYWORD2
+show			KEYWORD2
+hide			KEYWORD2
+isVisible		KEYWORD2
+setScale		KEYWORD2
+setInputType		KEYWORD2
+setMaxLength		KEYWORD2
+
+# Constants
+SSD1306_128_64		LITERAL1
+SSD1306_128_32		LITERAL1
+SSD1306_96_64		LITERAL1
+DEFAULT_SDA		LITERAL1
+DEFAULT_SCL		LITERAL1
+DEFAULT_BTN1		LITERAL1
+DEFAULT_BTN2		LITERAL1 
