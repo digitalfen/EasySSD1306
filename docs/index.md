@@ -1,47 +1,75 @@
 # EasySSD1306
-<br> 
 
-The **Easy SSD1306 Library** simplifies the use of SSD1306 OLED displays by providing four core components.<br>  Instead of writing complex code for navigation, rendering, and interaction,<br> you only need to instantiate components and register them.<br> Everything else is handled automatically.
+A library for creating graphical interfaces on SSD1306 OLED displays with ESP32 and ESP8266.
 
-<b>No need to build navigation logic or design layouts—just declare what you need, and it's ready to use!</b>
-<br>
----  
+## Features
 
-# Features  
+- Pre-built components
+- Text and image support
+- Menu navigation
+- Loading animations
+- Alert system
 
-The library offers a **modular approach**, where each component is instantiated and configured independently. Once registered, the component is automatically rendered when the `render()` method is called inside the main loop.  
+## Supported Platforms
 
-## Animation  
+- ESP32
+- ESP8266
+- Arduino (in development)
 
-Animation provides **dynamic visual effects** that enhance the user interface without affecting program execution. You can use predefined styles or customize your own.  
+## Installation
 
-- **Intro animations**: Includes presets for animated title sequences.  
-- **Render images**: Supports custom image rendering using monochrome bitmaps (1-bit per pixel).  
-- **Screen savers**: Runs looping animations as a screensaver when inactive.  
+### PlatformIO
 
-## Event  
+Add to your `platformio.ini`:
 
-Event links **visual feedback** with **task execution**, ensuring users see progress indicators during processing.  
+```ini
+lib_deps =
+    digitalfen/EasySSD1306
+```
 
-- **Process tracking**: Displays animations like loading bars or spinners while tasks run.  
-- **Custom event handling**: Define event-triggered animations that execute specific logic.  
+### Arduino IDE
 
-## Navigation  
+1. Download the ZIP file
+2. Go to Sketch > Include Library > Add .ZIP Library
+3. Select the downloaded ZIP file
 
-Navigation simplifies user interaction by displaying selectable options linked to other components.  
+## Quick Start
 
-- **Multiple styles**: Choose from cursor lists, highlighted lists, and vertical/horizontal selectors.  
-- **Seamless navigation**: Options map directly to other components, enabling a structured UI flow.  
+```cpp
+#include <EasySSD1306.h>
 
-## View  
+void setup() {
+    DisplayManager display(128, 64);
+    TextView* text = new TextView("Hello!");
+    display.addComponent(text);
+    display.begin();
+}
 
-View provides an easy way to **display formatted text**, ideal for results, alerts, or documentation.  
+void loop() {
+    display.update();
+}
+```
 
-- **Scrollable content**: Navigate long-form text efficiently.  
-- **Simple & clean design**: Ensures readability without unnecessary complexity.  
-- **Intuitive navigation**: Easily move between previous and next states.  
+## Documentation
 
----  
+- [Quick Start Guide](quickstart.md)
+- [API Reference](api-reference.md)
+- [Examples](examples.md)
+- [Components Overview](components/overview.md)
+
+## Contributing
+
+Contributions are welcome! See the [contributing guide](contributing.md).
+
+## License
+
+MIT License - see [LICENSE file](../LICENSE) for details.
+
+## Support
+
+- Open an issue on GitHub
+- Check the documentation
+- Review the examples
 
 # Project Layout  
 
