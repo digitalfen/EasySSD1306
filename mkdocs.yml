@@ -85,8 +85,6 @@ extra:
       link: https://github.com/digitalfen
     - icon: fontawesome/brands/discord
       link: https://discord.gg/your-server
-  version:
-    provider: mike
 
 plugins:
   - search

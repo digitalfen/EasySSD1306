@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - feat/1.0.00
   pull_request:
     branches:
       - main
+      - feat/1.0.00
 
 jobs:
   deploy:
@@ -24,14 +26,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install mkdocs-material
           pip install mkdocs-minify-plugin
-          pip install mkdocs-mike
           
       - name: Build documentation
         run: mkdocs build
         
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/1.0.00'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site 
+          publish_dir: ./site
+          force_orphan: true 
