@@ -46,7 +46,5 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/digitalfen
     - icon: fontawesome/brands/discord
-      link: https://discord.gg/your-server
-
 plugins:
   - search
