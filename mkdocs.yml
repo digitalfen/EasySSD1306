@@ -1,34 +1,65 @@
 site_name: EasySSD1306
-site_description: Uma biblioteca para criar interfaces gráficas em displays OLED SSD1306
-site_url: https://digitalfen.github.io/EasySSD1306
+site_description: A library for creating graphical interfaces on SSD1306 OLED displays
+site_url: https://digitalfen.github.io/EasySSD1306/
 repo_url: https://github.com/digitalfen/EasySSD1306
 repo_name: digitalfen/EasySSD1306
-edit_uri: edit/main/docs/
 
 theme:
   name: material
-  language: pt-BR
+  language: en
   palette:
-    primary: blue
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   features:
     - navigation.sections
-    - navigation.expand
+    - navigation.path
     - navigation.indexes
-    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
 
 markdown_extensions:
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
+  - tables
   - attr_list
   - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
 
+plugins:
+  - search
+
 nav:
-  - Início: index.md
-  - Componentes:
+  - Home: index.md
+  - Components:
     - TextView: components/text-view.md
     - ImageView: components/image-view.md
     - Navigation: components/navigation.md
@@ -37,14 +68,12 @@ nav:
     - TextAnimation: components/text-animation.md
     - ImageAnimation: components/image-animation.md
     - Prompt: components/prompt.md
-  - Exemplos:
-    - Básico: examples/basic.md
-    - Avançado: examples/advanced.md
+  - Examples:
+    - Basic: examples/basic.md
+    - Advanced: examples/advanced.md
 
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/digitalfen
-    - icon: fontawesome/brands/discord
-plugins:
-  - search
+      link: https://github.com/digitalfen/EasySSD1306
+  generator: false
