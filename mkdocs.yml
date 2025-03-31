@@ -1,5 +1,5 @@
 site_name: EasySSD1306
-site_description: A library for creating graphical interfaces on SSD1306 OLED displays
+site_description: Uma biblioteca para criar interfaces gráficas em displays OLED SSD1306
 site_url: https://digitalfen.github.io/EasySSD1306
 repo_url: https://github.com/digitalfen/EasySSD1306
 repo_name: digitalfen/EasySSD1306
@@ -7,43 +7,39 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
+  language: pt-BR
+  palette:
+    primary: blue
   features:
-    - navigation.tabs
     - navigation.sections
     - navigation.expand
-    - search.suggest
-    - search.highlight
-    - content.code.copy
+    - navigation.indexes
+    - toc.integrate
 
 markdown_extensions:
-  - codehilite
-  - fenced_code
-  - tables
-  - toc:
-      permalink: true
-  - pymdownx.highlight
+  - admonition
+  - pymdownx.details
   - pymdownx.superfences
-  - pymdownx.tasklist:
-      custom_checkbox: true
+  - attr_list
+  - md_in_html
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
 
 nav:
-  - Home: index.md
-  - Quick Start: quickstart.md
-  - Components:
-    - Overview: components/overview.md
+  - Início: index.md
+  - Componentes:
     - TextView: components/text-view.md
-    - TextAnimation: components/text-animation.md
-    - Navigation: components/navigation.md
     - ImageView: components/image-view.md
-    - ImageAnimation: components/image-animation.md
+    - Navigation: components/navigation.md
     - LoadAnimation: components/load-animation.md
     - Alert: components/alert.md
+    - TextAnimation: components/text-animation.md
+    - ImageAnimation: components/image-animation.md
     - Prompt: components/prompt.md
-  - Examples: examples.md
-  - API Reference: api-reference.md
+  - Exemplos:
+    - Básico: examples/basic.md
+    - Avançado: examples/advanced.md
 
 extra:
   social:
