@@ -144,16 +144,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 - [GitHub Issues](https://github.com/digitalfen/EasySSD1306/issues)
-- [Discord Community](https://discord.gg/your-server)
 - [Documentation](https://digitalfen.github.io/EasySSD1306)
 
 ## Authors
 
-- Digitalfen - [@digitalfen](https://github.com/digitalfen)
+- Vinícius Maffioli - [@linkedin](https://www.linkedin.com/in/vinicius-maffioli/)
 
 ## Acknowledgments
 
 - [Adafruit](https://www.adafruit.com/) for the SSD1306 library
 - [PlatformIO](https://platformio.org/) for the development environment
 - [MkDocs](https://www.mkdocs.org/) for the documentation
-- All project contributors
