@@ -8,30 +8,10 @@ theme:
   name: material
   language: en
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: blue
-      accent: blue
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: blue
-      accent: blue
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+    primary: blue
   features:
     - navigation.sections
-    - navigation.path
     - navigation.indexes
-    - navigation.top
-    - search.suggest
-    - search.highlight
-    - content.tabs.link
-    - content.code.annotation
-    - content.code.copy
   icon:
     repo: fontawesome/brands/github
 
@@ -41,15 +21,10 @@ markdown_extensions:
   - md_in_html
   - toc:
       permalink: true
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.highlight
   - pymdownx.superfences
   - admonition
   - pymdownx.details
-  - pymdownx.tabbed:
-      alternate_style: true
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
@@ -76,4 +51,3 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/digitalfen/EasySSD1306
-  generator: false
