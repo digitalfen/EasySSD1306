@@ -8,18 +8,6 @@
 
 An easy-to-use library for creating rich graphical interfaces on SSD1306 OLED displays with ESP32 and ESP8266.
 
-## Features
-
-- 🎨 Rich and modern graphical interface
-- 🧩 Pre-built components
-- ✨ Smooth animations
-- 🚀 Easy to use
-- 📱 Menu support
-- 📊 Graphs and visualizations
-- ⚡ Alert system
-- 🖼️ Image and icon support
-- 🔘 Button input support
-
 ## Quick Start
 
 ### Installation
