@@ -28,8 +28,10 @@ public:
 private:
     std::function<unsigned int()> exec;
     unsigned int next;
-
     LoadAnimationPresets preset;
+    bool isExecuting = false;
+    unsigned long startTime = 0;
+    const unsigned long minDuration = 1000; // Minimum duration of 1 second
 
     void presetLoadAnimation1(Adafruit_SSD1306 *display);
     void presetLoadAnimation2(Adafruit_SSD1306 *display);

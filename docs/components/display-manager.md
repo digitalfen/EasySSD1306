@@ -83,6 +83,7 @@ void loop() {
 
 ### Construtores
 - `DisplayManager()`
+- `DisplayManager(DisplayResolution resolution)`
 
 ### Métodos Públicos
 - `void setDisplay(Adafruit_SSD1306 *disp)`

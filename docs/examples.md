@@ -1,216 +1,311 @@
 # Examples
 
-Examples demonstrating the use of EasySSD1306 components.
+This document provides examples of using the EasySSD1306 library.
 
-## Basic Examples
+## Basic Example
 
-### Simple Text Display
 ```cpp
 #include <EasySSD1306.h>
 
+DisplayManager display(RESOLUTION_128x64, ORIENTATION_NORMAL);
+
 void setup() {
-    DisplayManager display(128, 64);
-    TextView* text = new TextView("Hello World!");
-    text->setPosition(0, 0);
-    display.addComponent(text);
-    display.begin();
+  display.begin();
+  
+  if (!display.isInitialized()) {
+    Serial.println("Failed to initialize display");
+    return;
+  }
+  
+  TextView* text = new TextView("Hello World");
+  display.addComponent(text);
+  
+  display.update();
 }
 
 void loop() {
-    display.update();
+  display.update();
 }
 ```
 
-### Menu Navigation
+## Resolution Example
+
 ```cpp
 #include <EasySSD1306.h>
 
+DisplayManager display(RESOLUTION_128x64, ORIENTATION_NORMAL);
+
 void setup() {
-    DisplayManager display(128, 64);
-    
-    Navigation* menu = new Navigation("Main Menu");
-    menu->addItem("Temperature", "25°C");
-    menu->addItem("Humidity", "60%");
-    menu->addItem("Settings", "");
-    
-    display.addComponent(menu);
-    display.begin();
+  display.begin();
+  
+  if (!display.isInitialized()) {
+    Serial.println("Failed to initialize display");
+    return;
+  }
+  
+  TextView* text = new TextView("Hello World");
+  display.addComponent(text);
+  
+  display.update();
+  
+  delay(2000);
+  
+  // Change resolution
+  display.setResolution(RESOLUTION_64x32);
+  display.update();
 }
 
 void loop() {
-    display.update();
+  display.update();
 }
 ```
 
-### Loading Animation
+## Orientation Example
+
 ```cpp
 #include <EasySSD1306.h>
 
+DisplayManager display(RESOLUTION_128x64, ORIENTATION_NORMAL);
+
 void setup() {
-    DisplayManager display(128, 64);
-    
-    LoadAnimation* loading = new LoadAnimation("Loading...");
-    loading->setPosition(0, 0);
-    
-    display.addComponent(loading);
-    display.begin();
-    
-    loading->start();
+  display.begin();
+  
+  if (!display.isInitialized()) {
+    Serial.println("Failed to initialize display");
+    return;
+  }
+  
+  TextView* text = new TextView("Hello World");
+  display.addComponent(text);
+  
+  display.update();
+  
+  delay(2000);
+  
+  // Change orientation
+  display.setOrientation(ORIENTATION_RIGHT);
+  display.update();
 }
 
 void loop() {
-    display.update();
+  display.update();
 }
 ```
 
-## Advanced Examples
+## Navigation Example
 
-### System Status Display
 ```cpp
 #include <EasySSD1306.h>
 
-TextView* temp;
-TextView* hum;
-char buffer[32];
+DisplayManager display(RESOLUTION_128x64, ORIENTATION_NORMAL);
 
 void setup() {
-    DisplayManager display(128, 64);
-    
-    TextView* title = new TextView("System Status");
-    title->setPosition(0, 0);
-    title->setStyle(TextStyle::BOLD);
-    
-    temp = new TextView("");
-    temp->setPosition(0, 16);
-    
-    hum = new TextView("");
-    hum->setPosition(0, 32);
-    
-    display.addComponent(title);
-    display.addComponent(temp);
-    display.addComponent(hum);
-    display.begin();
+  display.begin();
+  
+  if (!display.isInitialized()) {
+    Serial.println("Failed to initialize display");
+    return;
+  }
+  
+  NavigationStyle style;
+  style.itemHeight = 16;
+  style.selectedColor = COLOR_WHITE;
+  style.unselectedColor = COLOR_GRAY;
+  
+  Navigation* menu = new Navigation(style);
+  
+  menu->addItem("Item 1");
+  menu->addItem("Item 2");
+  menu->addItem("Item 3");
+  
+  display.addComponent(menu);
+  
+  display.update();
 }
 
 void loop() {
-    sprintf(buffer, "Temperature: %d°C", getTemperature());
-    temp->setText(buffer);
-    
-    sprintf(buffer, "Humidity: %d%%", getHumidity());
-    hum->setText(buffer);
-    
-    display.update();
+  if (display.isButtonPressed(ButtonType::UP)) {
+    menu->selectPrevious();
+  }
+  
+  if (display.isButtonPressed(ButtonType::DOWN)) {
+    menu->selectNext();
+  }
+  
+  display.update();
 }
 ```
 
-### Settings Menu
+## LoadAnimation Example
+
 ```cpp
 #include <EasySSD1306.h>
 
+DisplayManager display(RESOLUTION_128x64, ORIENTATION_NORMAL);
+
 void setup() {
-    DisplayManager display(128, 64);
-    
-    Navigation* menu = new Navigation("Settings");
-    menu->addItem("Brightness", "50%");
-    menu->addItem("Contrast", "75%");
-    menu->addItem("Inversion", "Off");
-    menu->addItem("Back", "");
-    
-    display.addComponent(menu);
-    display.begin();
+  display.begin();
+  
+  if (!display.isInitialized()) {
+    Serial.println("Failed to initialize display");
+    return;
+  }
+  
+  LoadAnimationStyle style;
+  style.size = 16;
+  style.color = COLOR_WHITE;
+  style.speed = 100;
+  
+  LoadAnimation* loader = new LoadAnimation(style);
+  display.addComponent(loader);
+  
+  display.update();
 }
 
 void loop() {
-    display.update();
+  display.update();
 }
 ```
 
-### Alert System
+## Alert Example
+
 ```cpp
 #include <EasySSD1306.h>
 
+DisplayManager display(RESOLUTION_128x64, ORIENTATION_NORMAL);
+
 void setup() {
-    DisplayManager display(128, 64);
-    
-    Alert* alert = new Alert("Warning", "Temperature too high!");
-    alert->setDuration(3000);
-    
-    display.addComponent(alert);
-    display.begin();
-    
-    alert->show();
+  display.begin();
+  
+  if (!display.isInitialized()) {
+    Serial.println("Failed to initialize display");
+    return;
+  }
+  
+  AlertStyle style;
+  style.duration = 2000;
+  style.color = COLOR_WHITE;
+  style.backgroundColor = COLOR_BLACK;
+  
+  Alert* alert = new Alert("Alert!", style);
+  display.addComponent(alert);
+  
+  display.update();
 }
 
 void loop() {
-    display.update();
+  display.update();
 }
 ```
 
-## Complete Applications
+## ImageView Example
 
-### Weather Station
 ```cpp
 #include <EasySSD1306.h>
 
-TextView* temp;
-TextView* hum;
-TextView* press;
-char buffer[32];
+DisplayManager display(RESOLUTION_128x64, ORIENTATION_NORMAL);
 
 void setup() {
-    DisplayManager display(128, 64);
-    
-    TextView* title = new TextView("Weather Station");
-    title->setPosition(0, 0);
-    title->setStyle(TextStyle::BOLD);
-    
-    temp = new TextView("");
-    temp->setPosition(0, 16);
-    
-    hum = new TextView("");
-    hum->setPosition(0, 32);
-    
-    press = new TextView("");
-    press->setPosition(0, 48);
-    
-    display.addComponent(title);
-    display.addComponent(temp);
-    display.addComponent(hum);
-    display.addComponent(press);
-    display.begin();
+  display.begin();
+  
+  if (!display.isInitialized()) {
+    Serial.println("Failed to initialize display");
+    return;
+  }
+  
+  ImageViewStyle style;
+  style.scale = 1;
+  style.alignment = IMAGE_ALIGN_CENTER;
+  
+  ImageView* image = new ImageView(style);
+  display.addComponent(image);
+  
+  display.update();
 }
 
 void loop() {
-    sprintf(buffer, "Temperature: %d°C", getTemperature());
-    temp->setText(buffer);
-    
-    sprintf(buffer, "Humidity: %d%%", getHumidity());
-    hum->setText(buffer);
-    
-    sprintf(buffer, "Pressure: %d hPa", getPressure());
-    press->setText(buffer);
-    
-    display.update();
+  display.update();
 }
 ```
 
-### System Monitor
+## Complete Example
+
 ```cpp
 #include <EasySSD1306.h>
 
+DisplayManager display(RESOLUTION_128x64, ORIENTATION_NORMAL);
+
 void setup() {
-    DisplayManager display(128, 64);
-    
-    Navigation* menu = new Navigation("System Monitor");
-    menu->addItem("CPU Usage", "45%");
-    menu->addItem("Memory", "2.5GB/4GB");
-    menu->addItem("Network", "Connected");
-    menu->addItem("Storage", "75%");
-    
-    display.addComponent(menu);
-    display.begin();
+  display.begin();
+  
+  if (!display.isInitialized()) {
+    Serial.println("Failed to initialize display");
+    return;
+  }
+  
+  // Create text style
+  TextViewStyle textStyle;
+  textStyle.fontSize = 2;
+  textStyle.alignment = TEXT_ALIGN_CENTER;
+  textStyle.color = COLOR_WHITE;
+  
+  // Create navigation style
+  NavigationStyle menuStyle;
+  menuStyle.itemHeight = 16;
+  menuStyle.selectedColor = COLOR_WHITE;
+  menuStyle.unselectedColor = COLOR_GRAY;
+  
+  // Create components
+  TextView* text = new TextView("Hello World", textStyle);
+  Navigation* menu = new Navigation(menuStyle);
+  
+  // Add menu items
+  menu->addItem("Item 1");
+  menu->addItem("Item 2");
+  menu->addItem("Item 3");
+  
+  // Add components to display
+  display.addComponent(text);
+  display.addComponent(menu);
+  
+  display.update();
 }
 
 void loop() {
-    display.update();
-} 
+  if (display.isButtonPressed(ButtonType::UP)) {
+    menu->selectPrevious();
+  }
+  
+  if (display.isButtonPressed(ButtonType::DOWN)) {
+    menu->selectNext();
+  }
+  
+  if (display.isButtonPressed(ButtonType::SELECT)) {
+    display.setResolution(RESOLUTION_64x32);
+  }
+  
+  display.update();
+}
+```
+
+## Troubleshooting
+
+1. Display not initializing
+   - Check I2C connections
+   - Verify I2C address
+   - Check I2C pins
+
+2. Components not displaying
+   - Check component creation
+   - Verify component addition
+   - Check display update
+
+3. Button issues
+   - Check button connections
+   - Verify button pins
+   - Check button state
+
+4. Memory issues
+   - Reduce number of components
+   - Use simpler styles
+   - Check available memory 

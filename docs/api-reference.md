@@ -1,50 +1,82 @@
 # API Reference
 
-Detailed information about the EasySSD1306 API.
-
 ## DisplayManager
 
-The main class for managing the OLED display and its components.
-
 ### Constructor
+
 ```cpp
-DisplayManager(int width, int height)
+DisplayManager(DisplayResolution resolution);
 ```
+
+Creates a new display manager instance with the specified resolution.
+
+Parameters:
+- `resolution`: Display resolution (RESOLUTION_128x64 or RESOLUTION_128x32)
 
 ### Methods
 
-#### Display Control
-```cpp
-void begin()
-void update()
-void clear()
-```
+#### void begin()
+Initializes the display and configures button pins.
 
-#### Component Management
-```cpp
-void addComponent(Component* component)
-void removeComponent(Component* component)
-void removeAllComponents()
-```
+#### void setButtons(uint8_t up, uint8_t down)
+Configures the navigation button pins.
+
+Parameters:
+- `up`: Up button pin
+- `down`: Down button pin
+
+#### void render()
+Updates the screen and current state of the display. This method should be called in the main loop.
+
+#### void addComponent(IDisplayComponent *component)
+Adds a component to the current display state.
+
+Parameters:
+- `component`: Pointer to the component to be added
+
+#### void setState(unsigned int n)
+Sets the current state of the display.
+
+Parameters:
+- `n`: ID of the new state
+
+### Static Variables
+
+#### int selectedItem
+Index of the currently selected item.
+
+#### bool confirmItem
+Flag indicating if the current item has been confirmed.
+
+#### bool cancelItem
+Flag indicating if the current operation has been cancelled.
 
 ## Components
 
 ### TextView
 
-Component for displaying static text.
-
 #### Constructor
 ```cpp
-TextView(const char* text)
+TextView(const char* text, uint8_t x, uint8_t y);
 ```
 
+Creates a new text component.
+
+Parameters:
+- `text`: Text to be displayed
+- `x`: X position of the text
+- `y`: Y position of the text
+
 #### Methods
-```cpp
-void setText(const char* text)
-void setPosition(int x, int y)
-void setStyle(TextStyle style)
-void setVisible(bool visible)
-```
+
+##### void setText(const char* text)
+Sets the component's text.
+
+##### void setPosition(uint8_t x, uint8_t y)
+Sets the text position.
+
+##### void render(Adafruit_SSD1306* display)
+Renders the text on the display.
 
 ### Navigation
 

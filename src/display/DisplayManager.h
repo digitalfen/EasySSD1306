@@ -8,10 +8,17 @@
 #include "display/components/Navigation.h"
 #include "display/IDisplayComponent.h"
 
+// Enum para as resoluções disponíveis
+enum DisplayResolution {
+    RESOLUTION_128x64,  // Standard 128x64 pixel display (default)
+    RESOLUTION_128x32   // 128x32 pixel display
+};
+
 class DisplayManager
 {
 public:
-    DisplayManager();
+    // Construtor que exige a resolução
+    DisplayManager(DisplayResolution resolution);
 
     void setDisplay(Adafruit_SSD1306 *disp);
     void setButtons(uint8_t buttonUp, uint8_t buttonDown);
@@ -29,6 +36,7 @@ public:
 
 private:
     Adafruit_SSD1306 *display;
+    DisplayResolution resolution;
 
     std::map<int, IDisplayComponent *> components;
 

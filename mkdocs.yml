@@ -1,53 +1,61 @@
 site_name: EasySSD1306
-site_description: A library for creating graphical interfaces on SSD1306 OLED displays
+site_description: SSD1306 OLED Display Library
 site_url: https://digitalfen.github.io/EasySSD1306/
-repo_url: https://github.com/digitalfen/EasySSD1306
-repo_name: digitalfen/EasySSD1306
 
 theme:
   name: material
   language: en
   palette:
     primary: blue
-  features:
-    - navigation.sections
-    - navigation.indexes
-  icon:
-    repo: fontawesome/brands/github
 
 markdown_extensions:
   - tables
   - attr_list
-  - md_in_html
   - toc:
       permalink: true
   - pymdownx.highlight
   - pymdownx.superfences
   - admonition
   - pymdownx.details
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 plugins:
   - search
 
 nav:
-  - Home: index.md
+  - Overview: index.md
+  - Getting Started: getting_started.md
+  - Display Manager:
+    - Overview: display_manager/overview.md
+    - Utilization: display_manager/utilization.md
+    - Configurations:
+      - Resolution: display_manager/resolution.md
+      - Orientation: display_manager/orientation.md
+      - Color: display_manager/color.md
+      - Font: display_manager/font.md
+      - Contrast: display_manager/contrast.md
+      - Animation: display_manager/animation.md
+      - Screen Saver: display_manager/screensaver.md
   - Components:
-    - TextView: components/text-view.md
-    - ImageView: components/image-view.md
-    - Navigation: components/navigation.md
-    - LoadAnimation: components/load-animation.md
-    - Alert: components/alert.md
-    - TextAnimation: components/text-animation.md
-    - ImageAnimation: components/image-animation.md
-    - Prompt: components/prompt.md
-  - Examples:
+    - Overview: components/overview.md
+    - Component Base: components/component.md
+    - Display Manager: components/display-manager.md
+    - Pre-built:
+      - TextView: components/text-view.md
+      - ImageView: components/image-view.md
+      - LoadAnimation: components/load-animation.md
+      - TextAnimation: components/text-animation.md
+      - ImageAnimation: components/image-animation.md
+      - Alert: components/alert.md
+      - Prompt: components/prompt.md
+      - Navigation: components/navigation.md
+  - API Reference: api-reference.md
+  - Examples: 
     - Basic: examples/basic.md
     - Advanced: examples/advanced.md
-
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/digitalfen/EasySSD1306
+    - Resolution: examples/resolution.md
+    - Orientation: examples/orientation.md
+    - Navigation: examples/navigation.md
+    - Load Animation: examples/load_animation.md
+    - Alert: examples/alert.md
+  - Contributing: contributing.md
+  - License: license.md

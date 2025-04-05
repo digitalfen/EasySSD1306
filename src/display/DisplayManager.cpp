@@ -4,11 +4,24 @@ int DisplayManager::selectedItem = 0;
 bool DisplayManager::confirmItem = false;
 bool DisplayManager::cancelItem = false;
 
-DisplayManager::DisplayManager() : currentState(0),
+DisplayManager::DisplayManager(DisplayResolution res) : currentState(0),
                                    lastState(0),
                                    lastButtonUpState(HIGH),
-                                   lastButtonDownState(HIGH)
+                                   lastButtonDownState(HIGH),
+                                   resolution(res)
 {
+    // Inicializa o display com a resolução correta
+    switch(resolution) {
+        case RESOLUTION_128x64:
+            display = new Adafruit_SSD1306(128, 64, &Wire, -1);
+            break;
+        case RESOLUTION_128x32:
+            display = new Adafruit_SSD1306(128, 32, &Wire, -1);
+            break;
+        default:
+            display = new Adafruit_SSD1306(128, 64, &Wire, -1);
+            break;
+    }
 }
 
 void DisplayManager::setDisplay(Adafruit_SSD1306 *disp)
@@ -29,108 +42,62 @@ void DisplayManager::moveDown()
 
 void DisplayManager::moveUp()
 {
-
     selectedItem--;
-}
-
-unsigned long buttonUpPressTime = 0;
-unsigned long buttonDownPressTime = 0;
-bool isButtonUpPressed = false;
-bool isButtonDownPressed = false;
-void DisplayManager::handleButtons()
-{
-    // Inicializações
-    cancelItem = false;
-    confirmItem = false;
-
-    bool buttonUpState = digitalRead(buttonUp);
-    bool buttonDownState = digitalRead(buttonDown);
-
-    // Verifica o estado do botão Up
-    if (buttonUpState == LOW && lastButtonUpState == HIGH)
-    {
-        // Botão foi pressionado
-        buttonUpPressTime = millis(); // Marcar o tempo de pressionamento
-        isButtonUpPressed = true;
-        lastButtonUpState = LOW;
-    }
-    else if (buttonUpState == HIGH && lastButtonUpState == LOW)
-    {
-        // Botão foi solto
-        if (isButtonUpPressed)
-        {
-            if ((millis() - buttonUpPressTime) < 500)
-            {
-                moveUp(); // Movimento apenas em clique curto
-            }
-            else
-            {
-                cancelItem = true; // Clique longo
-            }
-        }
-        lastButtonUpState = HIGH;
-        isButtonUpPressed = false;
-    }
-
-    // Verifica o estado do botão Down
-    if (buttonDownState == LOW && lastButtonDownState == HIGH)
-    {
-        // Botão foi pressionado
-        buttonDownPressTime = millis(); // Marcar o tempo de pressionamento
-        isButtonDownPressed = true;
-        lastButtonDownState = LOW;
-    }
-    else if (buttonDownState == HIGH && lastButtonDownState == LOW)
-    {
-        // Botão foi solto
-        if (isButtonDownPressed)
-        {
-            if ((millis() - buttonDownPressTime) < 500)
-            {
-                moveDown(); // Movimento apenas em clique curto
-            }
-            else
-            {
-                confirmItem = true; // Clique longo
-            }
-        }
-        lastButtonDownState = HIGH;
-        isButtonDownPressed = false;
-    }
 }
 
 void DisplayManager::addComponent(IDisplayComponent *component)
 {
-    int id = component->id;     // Supondo que cada componente tenha um método para obter seu ID.
-    components[id] = component; // Insere ou substitui o componente no mapa.
-}
-
-void DisplayManager::setState(unsigned int n)
-{
-    if (n != currentState)
-    {
-        lastState = currentState;
-        currentState = n;
-        selectedItem = 0;
-        confirmItem = false; // Reseta o estado de confirmação// Reseta o item selecionado ao mudar de estado
-    }
+    components[currentState] = component;
 }
 
 void DisplayManager::render()
 {
+    if (display == nullptr)
+        return;
+
     handleButtons();
 
-    if (DisplayManager::cancelItem)
+    if (components.find(currentState) != components.end())
     {
-        setState(DisplayManager::lastState);
+        components[currentState]->render(display);
+    }
+}
+
+void DisplayManager::setState(unsigned int n)
+{
+    lastState = currentState;
+    currentState = n;
+}
+
+void DisplayManager::handleButtons()
+{
+    bool buttonUpState = digitalRead(buttonUp);
+    bool buttonDownState = digitalRead(buttonDown);
+
+    // Button 1 (Up) - Press: Navigate within the current view, Hold: Go back
+    if (buttonUpState == LOW && lastButtonUpState == HIGH)
+    {
+        // Button pressed
+        moveUp();
+    }
+    else if (buttonUpState == LOW && lastButtonUpState == LOW)
+    {
+        // Button held
+        cancelItem = true;
     }
 
-    for (const auto &pair : components)
+    // Button 2 (Down) - Press: Navigate within the current view, Hold: Advance or confirm
+    if (buttonDownState == LOW && lastButtonDownState == HIGH)
     {
-        if (currentState == pair.first && pair.second != nullptr)
-        {
-            unsigned int state = pair.second->render(display);
-            setState(state);
-        }
+        // Button pressed
+        moveDown();
     }
+    else if (buttonDownState == LOW && lastButtonDownState == LOW)
+    {
+        // Button held
+        confirmItem = true;
+    }
+
+    lastButtonUpState = buttonUpState;
+    lastButtonDownState = buttonDownState;
 }

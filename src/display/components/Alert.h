@@ -3,38 +3,29 @@
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <vector>
+#include <map>
 #include <string>
 
 #include "display/IDisplayComponent.h"
-#include "display/DisplayManager.h"
-
-enum AlertPresets
-{
-    ALERT_DEFAULT,
-    ALERT_WITH_BORDERS
-};
 
 class Alert : public IDisplayComponent
 {
 public:
-    Alert(unsigned int id, AlertPresets preset, const char *message)
-        : IDisplayComponent(id), message(message), next(id), preset(preset) {}
+    Alert(unsigned int id, const char *message, unsigned int duration)
+        : IDisplayComponent(id), message(message), duration(duration) {}
 
-    unsigned int render(Adafruit_SSD1306 *display) override;
-
-    void execute(std::function<unsigned int()> execute);
-    void nextComponent(unsigned int nextComponent);
+    unsigned int render(Adafruit_SSD1306 *disp) override;
+    void setMessage(const char *message);
+    const char *getMessage();
+    void setDuration(unsigned int duration);
+    unsigned int getDuration();
+    void show();
+    void hide();
 
 private:
     const char *message;
-    AlertPresets preset;
-    unsigned int next;
-    std::function<unsigned int()> exec;
-
-    unsigned int preset1(Adafruit_SSD1306 *display);
-    unsigned int preset2(Adafruit_SSD1306 *display);
-    void renderOkButton(Adafruit_SSD1306 *display);
+    unsigned int duration;
+    bool visible = true;
 };
 
 #endif
